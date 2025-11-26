@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Barang</title>
+</head>
+<body>
+
+<h2>Tambah Data Barang</h2>
+
+<form method="POST">
+    Kode: <input type="text" name="kode"><br><br>
+    Nama: <input type="text" name="nama"><br><br>
+    Harga: <input type="number" name="harga"><br><br>
+    Jumlah: <input type="number" name="jumlah"><br><br>
+
+    <button type="submit">Simpan</button>
+</form>
+
+<br>
+<a href="{{ url_for('index') }}">Kembali</a>
+
+</body>
+</html>

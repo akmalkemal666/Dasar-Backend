@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Data Barang</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Data Barang</h2>
+
+    <form method="POST">
+        <label>Kode Barang</label>
+        <input type="text" name="kode" value="{{ item.kode }}" required>
+
+        <label>Nama Barang</label>
+        <input type="text" name="nama" value="{{ item.nama }}" required>
+
+        <label>Harga</label>
+        <input type="number" name="harga" value="{{ item.harga }}" required>
+
+        <label>Jumlah</label>
+        <input type="number" name="jumlah" value="{{ item.jumlah }}" required>
+
+        <button type="submit">Simpan Perubahan</button>
+    </form>
+
+    <a class="back-link" href="{{ url_for('index') }}">← Kembali</a>
+</div>
+
+</body>
+</html>
