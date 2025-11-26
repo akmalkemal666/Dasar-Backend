@@ -1,0 +1,56 @@
+from flask import Flask, render_template, request, redirect, url_for
+from pymongo import MongoClient
+from bson import ObjectId
+
+app = Flask(__name__)
+
+# Koneksi MongoDB
+client = MongoClient("mongodb://localhost:27017/")
+db = client["travel_db"]
+collection = db["armada"]
+
+# READ - tampilkan semua data
+@app.route('/')
+def index():
+    armada = list(collection.find())
+    return render_template('index.html', armada=armada)
+
+# CREATE - tambah data
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    if request.method == 'POST':
+        data = {
+            "nama": request.form['nama'],
+            "kapasitas": request.form['kapasitas'],
+            "tujuan": request.form['tujuan']
+        }
+        collection.insert_one(data)
+        return redirect(url_for('index'))
+    return render_template('add.html')
+
+# UPDATE - edit data
+@app.route('/edit/<id>', methods=['GET', 'POST'])
+def edit(id):
+    travel = collection.find_one({"_id": ObjectId(id)})
+
+    if request.method == 'POST':
+        collection.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {
+                "nama": request.form['nama'],
+                "kapasitas": request.form['kapasitas'],
+                "tujuan": request.form['tujuan']
+            }}
+        )
+        return redirect(url_for('index'))
+
+    return render_template('edit.html', travel=travel)
+
+# DELETE - hapus data
+@app.route('/delete/<id>')
+def delete(id):
+    collection.delete_one({"_id": ObjectId(id)})
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
